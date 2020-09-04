@@ -29,5 +29,5 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - web
-     restart: on-failure:3
+      - serv
+    restart: on-failure:3
