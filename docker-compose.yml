@@ -1,0 +1,33 @@
+version: '3.7'
+
+volumes:
+  ipython_history: {}
+
+services:
+  # Database
+  postgres:
+    image: mdillon/postgis:10
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    restart: on-failure:3
+  #Django backend
+  serv:
+    build: .
+    command: /bin/bash -c "./start.sh"
+    depends_on:
+      - postgres
+    restart: on-failure:3
+  # nginx
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+     restart: on-failure:3
