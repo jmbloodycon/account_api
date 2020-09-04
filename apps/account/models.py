@@ -29,7 +29,6 @@ class Account(models.Model):
     full_name = models.CharField(
         max_length=255,
         verbose_name=_("Username")
-
     )
     current_balance = models.IntegerField(
         default=0,
@@ -42,7 +41,6 @@ class Account(models.Model):
     status = models.BooleanField(
         default=True,
         verbose_name=_("Is active"),
-
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -81,10 +79,7 @@ class Account(models.Model):
         except ValueError:
             return False
 
-        if debited < 0:
-            return False
-
-        if is_operation_possible(self, debited):
+        if is_operation_possible(self, debited) and debited >= 0:
             self.current_balance = self.current_balance - debited
             self.save()
             return True

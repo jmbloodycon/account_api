@@ -37,7 +37,7 @@ def get_addition(account):
 def ping(request, format=None):
     """Check serviceability.
 
-    Return 200 OK whith data.
+    Return 200 OK with data.
     """
     data = get_data_dict(200, True, {}, {})
     return Response(data)
